@@ -2,6 +2,8 @@
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
+const helmet = require('helmet')
+const cors = require("cors");
 
 const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD
 
@@ -21,7 +23,18 @@ async function createServer(
     : {}
 
   const app = express()
-
+  app.use(helmet.frameguard({
+    action: "deny",
+  }))
+  app.use(helmet.hidePoweredBy())
+  app.use(helmet.noSniff())
+  app.use(helmet.xssFilter())
+  app.use(cors({
+    origin: "*",
+    methods: "GET,PUT,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+  }))
   /**
    * @type {import('vite').ViteDevServer}
    */
@@ -50,7 +63,7 @@ async function createServer(
       })
     )
   }
-
+  app.use('/api', require('./routes'))
   app.use('*', async (req, res) => {
     try {
       const url = req.originalUrl
@@ -79,7 +92,6 @@ async function createServer(
       res.status(500).end(e.stack)
     }
   })
-
   return { app, vite }
 }
 
