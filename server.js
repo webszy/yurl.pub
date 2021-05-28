@@ -63,7 +63,7 @@ async function createServer(
       })
     )
   }
-  app.use('/api', require('./routes'))
+  app.use('/api', require('./backend'))
   app.use('*', async (req, res) => {
     try {
       const url = req.originalUrl
