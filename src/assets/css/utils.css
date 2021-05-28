@@ -1,0 +1,14 @@
+.w-full{
+    width: 100%;
+}
+.h-full{
+    height: 100%;
+}
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.box-border{
+    box-sizing: border-box;
+}
