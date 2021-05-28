@@ -1,6 +1,9 @@
 const vuePlugin = require('@vitejs/plugin-vue')
 const vueJsx = require('@vitejs/plugin-vue-jsx')
-
+require('dotenv')
+    .config({
+      path:require('path').resolve(__dirname,'./.env.local')
+    })
 /**
  * @type {import('vite').UserConfig}
  */
