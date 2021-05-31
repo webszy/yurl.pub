@@ -12,3 +12,27 @@
 .box-border{
     box-sizing: border-box;
 }
+.flex-col{
+    flex-direction: column;
+}
+.flex-1{
+    flex:1;
+}
+.flex{
+    display: flex;
+}
+.items-center{
+    align-items: center;
+}
+.justify-start{
+    justify-content: flex-start;
+}
+.justify-end{
+    justify-content: flex-end;
+}
+.justify-between{
+    justify-content: space-between;
+}
+.block{
+    display: block;
+}

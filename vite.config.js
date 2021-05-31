@@ -8,6 +8,7 @@ require('dotenv')
  * @type {import('vite').UserConfig}
  */
 module.exports = {
+
   plugins: [
     vuePlugin(),
     vueJsx(),
