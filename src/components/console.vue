@@ -35,9 +35,9 @@ export default defineComponent({
   box-shadow: 0 0 10px rgb(0 0 0 / 80%);
 }
 .bar{
-  padding-left: 5px;
+  padding:5px;
   font-size: 14px;
-  background-color: #eee;
+  background-color: #333;
   font-family: Consolas, serif;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
@@ -46,6 +46,7 @@ export default defineComponent({
   width: 14px;
   height:14px;
   border-radius: 50%;
+  margin-right: 5px;
 }
 .bar i:first-of-type{
   background-color:red;
@@ -55,12 +56,13 @@ export default defineComponent({
 }
 .bar i:last-of-type{
   background-color:#00FF00;
+  margin-right: 15px;
 }
 .bar p{
-
+  color:#eee;
 }
 .board{
   padding: 8px;
-  color:#fff;
+  color:#eee;
 }
 </style>
