@@ -42,11 +42,11 @@ router.put('/shorter', async (req, res) => {
             const id = searchResult.data[0].shortId
             res.json(makeResponse(304,'has same row',{id}))
         } else {
-            const addResult = await collection.add({
+            const result = await collection.add({
                 target:beShortedURL,
                 shortId:id
             })
-            res.json(makeResponse(200,'success',addResult))
+            res.json(makeResponse(200,'success',{result,shortId:id}))
         }
     } catch (e){
         res.json(makeResponse(505,'meet some errors on the api'))

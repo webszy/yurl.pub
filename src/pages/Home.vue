@@ -5,16 +5,22 @@
   </header>
   <main class="flex-center flex-col">
     <h1>try a easy way to zip <span>Y</span>our <span>URL</span></h1>
-    <console-frm />
+    <transition
+        enter-active-class="animated faster fadeInUp"
+        leave-active-class="animated faster fadeOutDown"
+    >
+      <console-frm v-if="showConsole"/>
+    </transition>
+
   </main>
 </template>
 
 <script setup>
-import { reactive,onMounted,defineAsyncComponent } from 'vue'
+import { ref,onMounted,defineAsyncComponent,nextTick } from 'vue'
 const consoleFrm = defineAsyncComponent(() => import(`../components/console.vue`))
-const state = reactive({ count: 0 })
+const showConsole = ref(false)
 onMounted(()=>{
-
+  nextTick(()=>{showConsole.value = true})
   window.addEventListener('paste', (e)=>{
     const paste = (e.clipboardData || window.clipboardData).getData('text')
     const reg = /(http(s?):)([/|.|\w|\s|-])*/
