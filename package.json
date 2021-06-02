@@ -7,7 +7,7 @@
   "repository": "https://github.com/webszy/yurl.pub",
   "scripts": {
     "dev": "node server",
-    "build": "yarn build:client && yarn build:server",
+    "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.js --outDir dist/server",
     "generate": "vite build --ssrManifest --outDir dist/static && yarn build:server && node prerender",
@@ -25,9 +25,7 @@
     "vite": "^2.3.4",
     "vue": "^3.0.11",
     "vue-router": "^4.0.3",
-    "vue3-clipboard": "^1.0.0"
-  },
-  "devDependencies": {
+    "vue3-clipboard": "^1.0.0",
     "@vitejs/plugin-vue": "^1.0.0",
     "@vitejs/plugin-vue-jsx": "^1.1.2",
     "@vue/compiler-sfc": "^3.0.8",

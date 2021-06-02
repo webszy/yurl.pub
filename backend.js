@@ -4,6 +4,7 @@ const tcb = require('@cloudbase/node-sdk')
 const shortid = require('shortid')
 const makeResponse = (code,msg,data)=>({code,msg,data})
 /* GET home page. */
+console.log(process.env.COLLECTION_NAME)
 router.get('/',(req,res)=>res.status(404).send('You\'re welcome!'))
 router.get('/yurl',async (req,res)=>{
     const id=req.query.id

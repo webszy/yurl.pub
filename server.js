@@ -6,7 +6,10 @@ const helmet = require('helmet')
 const cors = require("cors");
 
 const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD
-
+require('dotenv')
+    .config({
+      path:require('path').resolve(__dirname,'.env.local')
+    })
 async function createServer(
   root = process.cwd(),
   isProd = process.env.NODE_ENV === 'production'
