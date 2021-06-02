@@ -86,7 +86,15 @@ onMounted(() => {
   state.shortId = pathname.split('/')[1]
   fetch(`/api/yurl?id=${state.shortId}`)
   .then(res=>res.json())
-  .then(console.log)
+  .then(res=>{
+    if(res.code === 200){
+      setTimeout(() =>{
+        window.location.href=res.data.target
+      },1000)
+    } else {
+      window.location.href= window.location.origin
+    }
+  })
 
 })
 </script>

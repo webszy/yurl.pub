@@ -18,12 +18,14 @@
     "@cloudbase/node-sdk": "^2.5.2",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "element-plus": "*",
     "helmet": "^4.6.0",
     "lodash.get": "^4.4.2",
     "shortid": "^2.2.16",
     "vite": "^2.3.4",
     "vue": "^3.0.11",
-    "vue-router": "^4.0.3"
+    "vue-router": "^4.0.3",
+    "vue3-clipboard": "^1.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.0.0",
