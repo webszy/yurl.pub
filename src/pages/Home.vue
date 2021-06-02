@@ -3,20 +3,21 @@
     <router-link class="h-full" to="/" tag="a">Yurl<span>.</span>pub</router-link>
   </header>
   <main class="flex-center flex-col">
-    <h1>try a easy way to zip <span>Y</span>our <span>URL</span></h1>
+    <h1>Try a easy way to zip <span>Y</span>our <span>URL</span></h1>
     <transition
         enter-active-class="animated faster fadeInUp"
         leave-active-class="animated faster fadeOutDown"
     >
       <console-frm v-if="showConsole"/>
     </transition>
-
+    <s-table :list="list" v-if="list.length"/>
   </main>
 </template>
 
 <script setup>
-import { ref,onMounted,defineAsyncComponent,nextTick } from 'vue'
-const consoleFrm = defineAsyncComponent(() => import(`../components/console.vue`))
+import { ref,onMounted,defineAsyncComponent,nextTick,reactive,watch,toRaw } from 'vue'
+const consoleFrm = defineAsyncComponent(() => import('../components/console.vue'))
+const STable = defineAsyncComponent(() => import('../components/table.vue'))
 import { ElMessage,ElMessageBox } from 'element-plus';
 import { copyText } from 'vue3-clipboard'
 function isUrl (url) {
@@ -25,7 +26,7 @@ function isUrl (url) {
   console.log('testURL',url,'    ',result)
   return result
 }
-
+const list = reactive([])
 const showConsole = ref(false)
 const hasRequestOnce=ref(false)
 const getId = url=> fetch('/api/shorter?url='+url,{method: 'PUT'})
@@ -35,35 +36,32 @@ const getId = url=> fetch('/api/shorter?url='+url,{method: 'PUT'})
           hasRequestOnce.value =true
           const shortId = res.data.shortId
           const yourUrl = `${window.location.origin}/${shortId}`
+          updateList(yourUrl)
           copyText(yourUrl,undefined,(error,event)=>{
             if(error){
-              window.Printer.print(yourUrl+'\n')
-              ElMessage({
-                type:'info',
-                message:'copy failed,please remember Your url: '+yourUrl,
-                duration:0
-              })
+              ElMessageBox.alert(`Your URL is ${yourUrl}`,'Copy Failed')
             } else {
               ElMessage.success('Your URL Copied')
             }
           })
         } else {
           const yourUrl = `${window.location.origin}/${res.data.id}`
+          updateList(yourUrl)
           copyText(yourUrl,undefined,(error,event)=>{
             if(error){
-              window.Printer.print(yourUrl+'\n')
-              ElMessage({
-                type:'info',
-                message:'copy failed,please rember Your url: '+yourUrl,
-                duration:0
-              })
+              ElMessageBox.alert(`Your URL is ${yourUrl}`,'Copy Failed')
             } else {
               ElMessage.success('Your URL Copied')
             }
           })
         }
       })
-
+const updateList = (url)=>{
+  const links = list.map(e=>e.link)
+  if(!links.includes(url)){
+    list.push({link:url})
+  }
+}
 onMounted(()=>{
   window.isUrl = isUrl
   nextTick(()=>{showConsole.value = true})
@@ -97,7 +95,7 @@ onMounted(()=>{
     }
   },10*1000)
 })
-
+watch(list,()=>console.log(toRaw(list)))
 </script>
 
 <style scoped>

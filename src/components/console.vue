@@ -17,7 +17,7 @@ export default defineComponent({
     if(window.Printer){
       let str = 'echo Welcome To Yurl.pub!\n'
       str += 'echo This is a tool for zip your long url\n'
-      str += 'echo You can paste a long url \n'
+      str += 'echo You can paste a long url on the page \n'
       str += 'try now!\n'
       window.Printer.init(str, {
         selector: 'show-board',
