@@ -36,7 +36,7 @@ const getId = url=> fetch('/api/shorter?url='+url,{method: 'PUT'})
           hasRequestOnce.value =true
           const shortId = res.data.shortId
           const yourUrl = `${window.location.origin}/${shortId}`
-          updateList(yourUrl)
+          updateList({origin:url,shorted:yourUrl})
           copyText(yourUrl,undefined,(error,event)=>{
             if(error){
               ElMessageBox.alert(`Your URL is ${yourUrl}`,'Copy Failed')
@@ -46,7 +46,7 @@ const getId = url=> fetch('/api/shorter?url='+url,{method: 'PUT'})
           })
         } else {
           const yourUrl = `${window.location.origin}/${res.data.id}`
-          updateList(yourUrl)
+          updateList({origin:url,shorted:yourUrl})
           copyText(yourUrl,undefined,(error,event)=>{
             if(error){
               ElMessageBox.alert(`Your URL is ${yourUrl}`,'Copy Failed')
@@ -56,15 +56,31 @@ const getId = url=> fetch('/api/shorter?url='+url,{method: 'PUT'})
           })
         }
       })
-const updateList = (url)=>{
-  const links = list.map(e=>e.link)
-  if(!links.includes(url)){
-    list.push({link:url})
+const updateList = (obj)=>{
+  const links = list.map(e=>e.shorted)
+  if(!links.includes(obj.shorted)){
+    obj.origin = decodeURIComponent(obj.origin)
+    list.push(obj)
+  }
+}
+const getSavedList = () =>{
+  if(localStorage.getItem('list')){
+    try{
+      const listData = JSON.parse(localStorage.getItem('list'))
+      if(listData.length>0&&listData[0].shorted&&listData[0].shorted!==''){
+        listData.forEach(item=>{list.push(item)})
+      }
+    }catch (e) {
+      console.error(e)
+    }
   }
 }
 onMounted(()=>{
   window.isUrl = isUrl
-  nextTick(()=>{showConsole.value = true})
+  nextTick(()=>{
+    showConsole.value = true
+    setTimeout(getSavedList,1000)
+  })
   window.addEventListener('paste', (e)=>{
     if(e.target.tagName === 'INPUT'){return}
     const paste = (e.clipboardData || window.clipboardData).getData('text')

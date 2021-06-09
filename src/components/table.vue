@@ -1,10 +1,11 @@
 <template>
   <div class="table">
     <el-table :data="list" style="width: 100%">
-      <el-table-column label="Your URL" width="400" prop="link" />
+      <el-table-column label="Your URL" width="400" prop="shorted" />
       <el-table-column label="Action" width="200">
         <template #default="scope">
-          <el-button type="primary" @click.stop="handleCopy(scope.row.link)">Copy</el-button>
+          <el-button type="primary" @click.stop="handleCopy(scope.row.shorted)">Copy</el-button>
+          <el-button type="primary" @click.stop="handleSave(scope.row)">Save</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -12,7 +13,7 @@
 </template>
 
 <script>
-import {defineComponent} from 'vue'
+import {defineComponent,toRaw} from 'vue'
 import { copyText } from 'vue3-clipboard'
 import {ElMessage, ElMessageBox} from "element-plus"
 export default defineComponent({
@@ -29,9 +30,22 @@ export default defineComponent({
         }
       })
     }
+    const handleSave = (row)=>{
+      const data = toRaw(row)
+      const list = localStorage.getItem('list') || '[]'
+      const lastData = JSON.parse(list)
+      if(lastData.some(e=>e.shorted === data.shorted)){
+        ElMessage.info('Your URL is already saved')
+      } else {
+        lastData.push(data)
+        localStorage.setItem('list',JSON.stringify(lastData))
+        ElMessage.success('Your URL is saved in local')
+      }
+    }
     return {
       list:ctx.attrs.list,
-      handleCopy
+      handleCopy,
+      handleSave
     }
   }
 })
