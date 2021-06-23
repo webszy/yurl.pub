@@ -6,6 +6,8 @@ WORKDIR /usr/src/app
 COPY . .
 
 ENV NPM_CONFIG_LOGLEVEL warn
+RUN npm config set registry https://r.npm.taobao.org
+
 RUN npm install
 RUN npm install cross-env -g
 RUN npm run build
