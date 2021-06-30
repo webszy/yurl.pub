@@ -82,9 +82,8 @@ const state = reactive({
 })
 onMounted(() => {
   const pathname = window.location.pathname
-  const pathArr = pathname.split('')
   state.shortId = pathname.split('/')[1]
-  fetch(`/api/yurl?id=${state.shortId}`)
+  fetch(`${import.meta.env.VITE_APP_APIURL}/yurl?id=${state.shortId}`)
   .then(res=>res.json())
   .then(res=>{
     if(res.code === 200){

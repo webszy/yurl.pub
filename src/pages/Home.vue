@@ -30,9 +30,10 @@ function isUrl (url) {
 const list = reactive([])
 const showConsole = ref(false)
 const hasRequestOnce=ref(false)
-const getId = url=> fetch('/api/shorter?url='+url,{method: 'PUT'})
+const getId = url=> fetch(`${import.meta.env.VITE_APP_APIURL}/yurl?url=${url}`,{method: 'POST'})
       .then(res=>res.json())
       .then(res=>{
+        debugger
         if(res.code === 200){
           hasRequestOnce.value =true
           const shortId = res.data.shortId

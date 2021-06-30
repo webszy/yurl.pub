@@ -1,29 +1,20 @@
-const vuePlugin = require('@vitejs/plugin-vue')
-const vueJsx = require('@vitejs/plugin-vue-jsx')
+import vue from '@vitejs/plugin-vue'
+import * as path from 'path'
+import viteCompression from 'vite-plugin-compression';
 
 /**
  * @type {import('vite').UserConfig}
  */
-module.exports = {
-
-  plugins: [
-    vuePlugin(),
-    vueJsx(),
-    {
-      name: 'virtual',
-      resolveId(id) {
-        if (id === '@foo') {
-          return id
-        }
-      },
-      load(id) {
-        if (id === '@foo') {
-          return `export default { msg: 'hi' }`
-        }
-      }
+export default {
+  plugins: [vue(),viteCompression()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     }
-  ],
-  build: {
-    minify: false
+  },
+  server: {
+    host:'0.0.0.0',
+    port: 8085,
+    strictPort:false
   }
 }
