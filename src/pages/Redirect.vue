@@ -83,6 +83,7 @@ const state = reactive({
 onMounted(() => {
   const pathname = window.location.pathname
   state.shortId = pathname.split('/')[1]
+  window.sessionStorage.removeItem('redirect')
   const ts = new Date().getTime()
   fetch(`${import.meta.env.VITE_APP_APIURL}/yurl?id=${state.shortId}&ts=${ts}`,{
     method: 'GET',
