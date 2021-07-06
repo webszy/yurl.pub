@@ -21,6 +21,7 @@ const consoleFrm = defineAsyncComponent(() => import('../components/console.vue'
 const STable = defineAsyncComponent(() => import('../components/table.vue'))
 import { ElMessage,ElMessageBox } from 'element-plus';
 import { copyText } from 'vue3-clipboard'
+import {getSum} from "@/utils"
 function isUrl (url) {
   const reg = /^(https?:\/\/(([a-zA-Z0-9]+-?)+[a-zA-Z0-9]+\.)+[a-zA-Z]+)(:\d+)?(\/.*)?(\?.*)?(#.*)?$/
   const result = reg.test(url)
@@ -30,24 +31,31 @@ function isUrl (url) {
 const list = reactive([])
 const showConsole = ref(false)
 const hasRequestOnce=ref(false)
-const getId = url=> fetch(`${import.meta.env.VITE_APP_APIURL}/yurl?url=${url}`,{method: 'POST'})
+const ts = new Date().getTime()
+const getId = url=> fetch(`${import.meta.env.VITE_APP_APIURL}/yurl?url=${url}&ts=${ts}`,{
+          method: 'POST',
+          headers:{
+            'X-Authorization':getSum(ts)
+          }
+      })
       .then(res=>res.json())
       .then(res=>{
-        debugger
-        if(res.code === 200){
-          hasRequestOnce.value =true
-          const shortId = res.data.shortId
+        if(res.code === 200) {
+          hasRequestOnce.value = true
+          const shortId = res.shortId
           const yourUrl = `${window.location.origin}/${shortId}`
-          updateList({origin:url,shorted:yourUrl})
-          copyText(yourUrl,undefined,(error,event)=>{
-            if(error){
-              ElMessageBox.alert(`Your URL is ${yourUrl}`,'Copy Failed')
+          updateList({origin: url, shorted: yourUrl})
+          copyText(yourUrl, undefined, (error, event) => {
+            if (error) {
+              ElMessageBox.alert(`Your URL is ${yourUrl}`, 'Copy Failed')
             } else {
               ElMessage.success('Your URL Copied')
             }
           })
+        } else if(res.code === 505){
+          ElMessageBox.warning('Please retry later', 'Failed')
         } else {
-          const yourUrl = `${window.location.origin}/${res.data.id}`
+          const yourUrl = `${window.location.origin}/${res.shortId}`
           updateList({origin:url,shorted:yourUrl})
           copyText(yourUrl,undefined,(error,event)=>{
             if(error){

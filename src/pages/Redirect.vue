@@ -76,19 +76,25 @@
 
 <script setup>
 import {onMounted, reactive} from 'vue'
-
+import {getSum} from '@/utils'
 const state = reactive({
   shortId: ''
 })
 onMounted(() => {
   const pathname = window.location.pathname
   state.shortId = pathname.split('/')[1]
-  fetch(`${import.meta.env.VITE_APP_APIURL}/yurl?id=${state.shortId}`)
+  const ts = new Date().getTime()
+  fetch(`${import.meta.env.VITE_APP_APIURL}/yurl?id=${state.shortId}&ts=${ts}`,{
+    method: 'GET',
+    headers:{
+      'X-Authorization':getSum(ts)
+    }
+  })
   .then(res=>res.json())
   .then(res=>{
     if(res.code === 200){
       setTimeout(() =>{
-        window.location.href=res.data.target
+        window.location.href=res.target
       },1000)
     } else {
       window.location.href= window.location.origin
