@@ -11,7 +11,6 @@ const router = useRouter()
         l.pathname.slice(1).split('/').slice(0).join('/').replace(/&/g, '~and~') +
         (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
         l.hash
-
     router.replace({path})
   }
 </script>
