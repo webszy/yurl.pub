@@ -1,6 +1,15 @@
 <template>
     <router-view />
 </template>
+<script setup>
+import { useRouter } from 'vue-router'
+const router = useRouter()
+  if (window.sessionStorage.getItem('redirect')) {
+    const redirect = window.sessionStorage.getItem('redirect')
+    window.sessionStorage.removeItem('redirect')
+    router.push(redirect)
+  }
+</script>
 <style>
 #app {
   width: 100%;
