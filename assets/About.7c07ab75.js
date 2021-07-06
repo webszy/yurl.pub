@@ -1,0 +1,1 @@
+import{o as s,c as a,t as o,w as t}from"./vendor.d3668fd6.js";const d={setup:async()=>({msg:"About"})},e=t()(((t,d,e,c,r,n)=>(s(),a("h1",null,o(c.msg),1))));d.render=e,d.__scopeId="data-v-177c53c4";export default d;

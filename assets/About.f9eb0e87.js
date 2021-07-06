@@ -1,1 +1,0 @@
-import{o as s,c as a,t as o,w as t}from"./vendor.f8a32bda.js";const e={setup:async()=>({msg:"About"})},c=t()(((t,e,c,d,r,n)=>(s(),a("h1",null,o(d.msg),1))));e.render=c,e.__scopeId="data-v-177c53c4";export default e;
