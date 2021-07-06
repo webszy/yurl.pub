@@ -4,11 +4,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 const router = useRouter()
-  // if (window.sessionStorage.getItem('redirect')) {
-  //   const redirect = window.sessionStorage.getItem('redirect')
-  //   window.sessionStorage.removeItem('redirect')
-  //   router.push(redirect)
-  // }
+
   const l = window.location
   if(window.location.pathname.length>1){
     const path = l.pathname.split('/').slice(0, 1).join('/') + '/' +
@@ -16,7 +12,7 @@ const router = useRouter()
         (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
         l.hash
 
-    router.push({path})
+    router.replace({path})
   }
 </script>
 <style>
